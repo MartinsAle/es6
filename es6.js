@@ -941,3 +941,71 @@ function join(array1, array2) {
 function unshift(array, ...array2) {
     return [...array2, ...array];
 }
+
+//destructuring arrays and objects at the same time
+const companies = [
+    {name: 'Google', locc: 'Mountain View'},
+    {name: 'Facebook', locc: 'Menlo Park'},
+    {name: 'Uber', locc: 'São Francisco'}
+];
+// const [locc] = companies; //get the first object in the array
+const [{ locc }] = companies; //get the first element of the object in the array
+console.log(locc);
+const Google = {
+    locations: ['Mountain View', 'New York', 'London']
+};
+const {locations: [ loc ]} = Google;
+console.log(loc);
+
+//using destructure in a function
+function signup({email,password,username,dateOfBirth,city}){
+    //ao usar destructuring em argumentos de uma função a ordem que os argumentos são passados não influencia na execução da função
+}
+const user = {
+    username: 'myname',
+    password: 'mypassword',
+    email: 'myemail@gmail.com',
+    dateOfBirth: '1/1/1900',
+    city: 'New York'
+}
+signup(user);
+
+//more on when to use destructuring
+const points = [
+    [4,5],
+    [10,1],
+    [0,40]
+];
+
+const destructPoints = points.map(([x,y]) => {
+    return {x,y};
+});
+console.log(destructPoints);
+
+//exercicio1
+const profile = {
+    title: 'Engineer',
+    department: 'Engineering'
+  };
+  const {title, department} = profile;
+  function isEngineer(profile) {
+    return title === 'Engineer' && department === 'Engineering';
+  }
+
+//exercicio2
+const classes = [
+    [ 'Chemistry', '9AM', 'Mr. Darnick' ],
+    [ 'Physics', '10:15AM', 'Mrs. Lithun'],
+    [ 'Math', '11:30AM', 'Mrs. Vitalis' ]
+  ];
+  
+  const classesAsObject = classes.map(([subject, time, teacher]) => {
+      return {subject, time, teacher};
+  });
+
+  //exercicio3
+const numbers = [1, 2, 3];
+const double = ([ num, ...rest ]) => {
+    if (rest.length > 0) return [num * 2, ...double(rest)];
+    return [num * 2];
+}
