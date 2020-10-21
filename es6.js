@@ -983,29 +983,205 @@ const destructPoints = points.map(([x,y]) => {
 console.log(destructPoints);
 
 //exercicio1
-const profile = {
-    title: 'Engineer',
-    department: 'Engineering'
-  };
-  const {title, department} = profile;
-  function isEngineer(profile) {
-    return title === 'Engineer' && department === 'Engineering';
-  }
+// const profile = {
+//     title: 'Engineer',
+//     department: 'Engineering'
+//   };
+//   const {title, department} = profile;
+//   function isEngineer(profile) {
+//     return title === 'Engineer' && department === 'Engineering';
+//   }
 
 //exercicio2
-const classes = [
-    [ 'Chemistry', '9AM', 'Mr. Darnick' ],
-    [ 'Physics', '10:15AM', 'Mrs. Lithun'],
-    [ 'Math', '11:30AM', 'Mrs. Vitalis' ]
-  ];
+// const classes = [
+//     [ 'Chemistry', '9AM', 'Mr. Darnick' ],
+//     [ 'Physics', '10:15AM', 'Mrs. Lithun'],
+//     [ 'Math', '11:30AM', 'Mrs. Vitalis' ]
+//   ];
   
-  const classesAsObject = classes.map(([subject, time, teacher]) => {
-      return {subject, time, teacher};
-  });
+//   const classesAsObject = classes.map(([subject, time, teacher]) => {
+//       return {subject, time, teacher};
+//   });
 
   //exercicio3
-const numbers = [1, 2, 3];
-const double = ([ num, ...rest ]) => {
-    if (rest.length > 0) return [num * 2, ...double(rest)];
-    return [num * 2];
+// const numbers = [1, 2, 3];
+// const double = ([ num, ...rest ]) => {
+//     if (rest.length > 0) return [num * 2, ...double(rest)];
+//     return [num * 2];
+// }
+
+//CLASSES
+//introduction to classes
+// function Car(options){
+//     this.title = options.title;
+// }
+// Car.prototype.drive = function(){
+//     return 'vroom';
+// }
+// const car = new Car({title:'Focus'});
+// console.log(car);
+// console.log(car.drive());
+
+//prototype inheritance
+// function Car(options){
+//     this.title = options.title;
+// }
+// Car.prototype.drive = function(){
+//     return 'vroom';
+// }
+// function Toyota(options){
+//     Car.call(this, options);
+//     this.color = options.color;
+// }
+// Toyota.prototype = Object.create(Car.prototype);
+// Toyota.prototype.constructor = Toyota;
+// Toyota.prototype.honk = function(){
+//     return 'beep';
+// }
+// const toyota = new Toyota({color: 'red', title:'Dayle driver'});
+// const car = new Car({title:'Focus'});
+// console.log(car);
+// console.log(car.drive());
+// console.log(toyota);
+// console.log(toyota.drive());
+// console.log(toyota.honk());
+
+//refacturing with classes
+class Car3 {
+    constructor({title}){ //destructuring title
+        this.title = title;
+    }
+    drive(){
+        return 'vroom';
+    }
 }
+class Toyota extends Car3{
+    constructor(options){
+        super(options);
+        this.color = options.color;
+    }
+    honk(){
+        return 'beep';
+    }
+}
+const car = new Car3({title: 'Toyota'});
+const toyota = new Toyota({color: 'red', title:'Dayle Drive'});
+console.log(car);
+console.log(car.drive());
+console.log(toyota);
+console.log(toyota.drive());
+
+//exercicio1
+// class Monster {
+//     constructor(options){
+//         this.name = options.name;
+//         this.health = 100;
+//     }
+// }
+// const monster = new Monster({name: 'MyMonster'});
+// monster;
+
+//exercicio2
+// class Monster {
+//     constructor(options) {
+//         this.health = 100;
+//         this.name = options.name;
+//     }
+// }
+  
+// class Snake extends Monster {
+//     constructor(options){
+//         super(options);
+//     }
+//     bite(enemy){
+//         enemy.health -= 10;
+//     }
+// }
+// const snake = new Snake({name: 'mysnake'});
+// const snake2 = new Snake({name: 'mysnake2'});
+// snake;
+// snake.bite(snake2);
+
+//GENERATORS
+//for of loops
+const colorsG = ['red','green','blue'];
+for(let color of colors){
+    console.log(color);
+}
+const numbersG = [1,2,3,4];
+let totalG = 0;
+for(let number of numbersG){
+    totalG += number;
+}
+console.log(totalG);
+
+//introduction to generators
+function* numbersGen(){ //o simbolo * indica que a função é um generator
+    yield;
+}
+const gen = numbersGen();
+console.log(gen.next());
+console.log(gen.next());
+
+//generators with a short story
+// function* shopping(){
+//     const stuffFromStore = yield 'cash';
+//     return stuffFromStore;
+// }
+// const genShopping = shopping();
+// console.log(genShopping.next());
+// console.log(genShopping.next('groceries'));
+
+//another step in our generator story
+function* shopping(){
+    const stuffFromStore = yield 'cash';
+    const cleanClothes = yield 'laundry';
+    return [stuffFromStore, cleanClothes];
+}
+const genShopping = shopping();
+console.log(genShopping.next());
+console.log(genShopping.next('groceries'));
+console.log(genShopping.next('clean clothes'));
+
+//the big reveal on es6 generators
+function* colorsGen(){
+    yield 'red';
+    yield 'blue';
+    yield 'green';
+}
+const myColors = [];
+for(let color of colorsGen()){
+    myColors.push(color);
+}
+console.log(myColors);
+
+//a practical use of es6 generators
+//delegation of generators
+//delegation of generators continued
+const testingTeam = {
+    lead: 'Amanda',
+    tester: 'Bill'
+}
+const engeneeringTeam = {
+    size: 3,
+    department: 'Engeneering',
+    lead: 'Jill',
+    manager: 'Alex',
+    engineer: 'Dave'
+}
+function* TeamIterator(team){
+    yield team.lead;
+    yield team.manager;
+    yield team.engineer;
+    const testingTeamGenerator = TestingTeamIterator(team.testingTeam);
+    yield* testingTeamGenerator;
+}
+function* TestingTeamIterator(team){
+    yield team.lead;
+    yield team.tester;
+}
+const namesEngeneer = [];
+for(let names of TeamIterator(engeneeringTeam)){
+    namesEngeneer.push(names);
+}
+console.log(namesEngeneer);
