@@ -1229,3 +1229,40 @@ for(let value of tree){
     values.push(value);
 }
 console.log(values);
+
+//PROMISES AND FETCH
+//creating promises
+promise = new Promise((resolve, reject)=>{
+    resolve();
+    // reject();
+});
+
+//then and catch
+promise
+    .then( () => console.log('finally finished'))
+    .then( () => console.log('i was also ran!'))
+    .catch( () => console.log('uh oh!'));
+
+//async code with promises
+promiseAsync = new Promise((resolve, reject)=>{
+    setTimeout(()=>{
+        // resolve();
+        reject();
+    },3000);
+});
+promiseAsync
+    .then( () => console.log('finally finished async'))
+    .then( () => console.log('i was also ran! async'))
+    .catch( () => console.log('uh oh! async'));
+
+//ajax requests with fetch
+url = "https://jsonplaceholder.typicode.com/posts/";
+fetch(url)
+.then(response => response.json())
+.then(data => console.log(data));
+
+//shortcomings of fetch
+url2 = "https://jsonplaceholder.typicode123.com/posts123/";
+fetch(url2)
+.then(response => console.log(response))
+.catch(error => console.log('BAD', error));
