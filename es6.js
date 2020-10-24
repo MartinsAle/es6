@@ -942,6 +942,8 @@ function unshift(array, ...array2) {
     return [...array2, ...array];
 }
 
+<<
+<< << < HEAD
 //DESTRUCTURING
 var expense = {
     type: 'Busines',
@@ -988,3 +990,355 @@ const [name, name2, ...rest] = companies;
 console.log(rest);
 
 //destructuring array and objects at the same time
+const companies = [{
+        name: 'Google',
+        locc: 'Mountain View'
+    },
+    {
+        name: 'Facebook',
+        locc: 'Menlo Park'
+    },
+    {
+        name: 'Uber',
+        locc: 'São Francisco'
+    }
+];
+// const [locc] = companies; //get the first object in the array
+const [{
+    locc
+}] = companies; //get the first element of the object in the array
+console.log(locc);
+const Google = {
+    locations: ['Mountain View', 'New York', 'London']
+};
+const {
+    locations: [loc]
+} = Google;
+console.log(loc);
+
+//using destructure in a function
+function signup({
+    email,
+    password,
+    username,
+    dateOfBirth,
+    city
+}) {
+    //ao usar destructuring em argumentos de uma função a ordem que os argumentos são passados não influencia na execução da função
+}
+const user = {
+    username: 'myname',
+    password: 'mypassword',
+    email: 'myemail@gmail.com',
+    dateOfBirth: '1/1/1900',
+    city: 'New York'
+}
+signup(user);
+
+//more on when to use destructuring
+const points = [
+    [4, 5],
+    [10, 1],
+    [0, 40]
+];
+
+const destructPoints = points.map(([x, y]) => {
+    return {
+        x,
+        y
+    };
+});
+console.log(destructPoints);
+
+//exercicio1
+// const profile = {
+//     title: 'Engineer',
+//     department: 'Engineering'
+//   };
+//   const {title, department} = profile;
+//   function isEngineer(profile) {
+//     return title === 'Engineer' && department === 'Engineering';
+//   }
+
+//exercicio2
+// const classes = [
+//     [ 'Chemistry', '9AM', 'Mr. Darnick' ],
+//     [ 'Physics', '10:15AM', 'Mrs. Lithun'],
+//     [ 'Math', '11:30AM', 'Mrs. Vitalis' ]
+//   ];
+
+//   const classesAsObject = classes.map(([subject, time, teacher]) => {
+//       return {subject, time, teacher};
+//   });
+
+//exercicio3
+// const numbers = [1, 2, 3];
+// const double = ([ num, ...rest ]) => {
+//     if (rest.length > 0) return [num * 2, ...double(rest)];
+//     return [num * 2];
+// }
+
+//CLASSES
+//introduction to classes
+// function Car(options){
+//     this.title = options.title;
+// }
+// Car.prototype.drive = function(){
+//     return 'vroom';
+// }
+// const car = new Car({title:'Focus'});
+// console.log(car);
+// console.log(car.drive());
+
+//prototype inheritance
+// function Car(options){
+//     this.title = options.title;
+// }
+// Car.prototype.drive = function(){
+//     return 'vroom';
+// }
+// function Toyota(options){
+//     Car.call(this, options);
+//     this.color = options.color;
+// }
+// Toyota.prototype = Object.create(Car.prototype);
+// Toyota.prototype.constructor = Toyota;
+// Toyota.prototype.honk = function(){
+//     return 'beep';
+// }
+// const toyota = new Toyota({color: 'red', title:'Dayle driver'});
+// const car = new Car({title:'Focus'});
+// console.log(car);
+// console.log(car.drive());
+// console.log(toyota);
+// console.log(toyota.drive());
+// console.log(toyota.honk());
+
+//refacturing with classes
+class Car3 {
+    constructor({
+        title
+    }) { //destructuring title
+        this.title = title;
+    }
+    drive() {
+        return 'vroom';
+    }
+}
+class Toyota extends Car3 {
+    constructor(options) {
+        super(options);
+        this.color = options.color;
+    }
+    honk() {
+        return 'beep';
+    }
+}
+const car = new Car3({
+    title: 'Toyota'
+});
+const toyota = new Toyota({
+    color: 'red',
+    title: 'Dayle Drive'
+});
+console.log(car);
+console.log(car.drive());
+console.log(toyota);
+console.log(toyota.drive());
+
+//exercicio1
+// class Monster {
+//     constructor(options){
+//         this.name = options.name;
+//         this.health = 100;
+//     }
+// }
+// const monster = new Monster({name: 'MyMonster'});
+// monster;
+
+//exercicio2
+// class Monster {
+//     constructor(options) {
+//         this.health = 100;
+//         this.name = options.name;
+//     }
+// }
+
+// class Snake extends Monster {
+//     constructor(options){
+//         super(options);
+//     }
+//     bite(enemy){
+//         enemy.health -= 10;
+//     }
+// }
+// const snake = new Snake({name: 'mysnake'});
+// const snake2 = new Snake({name: 'mysnake2'});
+// snake;
+// snake.bite(snake2);
+
+//GENERATORS
+//for of loops
+const colorsG = ['red', 'green', 'blue'];
+for (let color of colors) {
+    console.log(color);
+}
+const numbersG = [1, 2, 3, 4];
+let totalG = 0;
+for (let number of numbersG) {
+    totalG += number;
+}
+console.log(totalG);
+
+//introduction to generators
+function* numbersGen() { //o simbolo * indica que a função é um generator
+    yield;
+}
+const gen = numbersGen();
+console.log(gen.next());
+console.log(gen.next());
+
+//generators with a short story
+// function* shopping(){
+//     const stuffFromStore = yield 'cash';
+//     return stuffFromStore;
+// }
+// const genShopping = shopping();
+// console.log(genShopping.next());
+// console.log(genShopping.next('groceries'));
+
+//another step in our generator story
+function* shopping() {
+    const stuffFromStore = yield 'cash';
+    const cleanClothes = yield 'laundry';
+    return [stuffFromStore, cleanClothes];
+}
+const genShopping = shopping();
+console.log(genShopping.next());
+console.log(genShopping.next('groceries'));
+console.log(genShopping.next('clean clothes'));
+
+//the big reveal on es6 generators
+function* colorsGen() {
+    yield 'red';
+    yield 'blue';
+    yield 'green';
+}
+const myColors = [];
+for (let color of colorsGen()) {
+    myColors.push(color);
+}
+console.log(myColors);
+
+//a practical use of es6 generators
+//delegation of generators
+//delegation of generators continued
+//symbol iterator with generators
+//complexities of symbol.iterator
+const testingTeam = {
+    lead: 'Amanda',
+    tester: 'Bill',
+    [Symbol.iterator]: function* () {
+        yield this.lead;
+        yield this.tester;
+    }
+}
+const engeneeringTeam = {
+    testingTeam,
+    size: 3,
+    department: 'Engeneering',
+    lead: 'Jill',
+    manager: 'Alex',
+    engineer: 'Dave',
+    [Symbol.iterator]: function* () {
+        yield this.lead;
+        yield this.manager;
+        yield this.engineer;
+        yield* this.testingTeam;
+    }
+}
+// function* TeamIterator(team){
+//     yield team.lead;
+//     yield team.manager;
+//     yield team.engineer;
+//     // const testingTeamGenerator = TestingTeamIterator(team.testingTeam);
+//     // yield* testingTeamGenerator; //o yield* gera um for of loops que lê os dados da const testingTeamGenerator
+//     yield* team.testingTeam; //busca no objeto testingTeam a key [Symbol.iterator] e executa um for of loop na function generator dentro dele
+// }
+// function* TestingTeamIterator(team){
+//     yield team.lead;
+//     yield team.tester;
+// }
+const namesEngeneer = [];
+// for(let names of TeamIterator(engeneeringTeam)){
+//     namesEngeneer.push(names);
+// }
+for (let names of engeneeringTeam) {
+    namesEngeneer.push(names);
+}
+console.log(namesEngeneer);
+
+//generators with recursion
+//more on generators and recursion
+class Comment {
+    constructor(content, children) {
+        this.content = content;
+        this.children = children;;
+    }
+
+    *[Symbol.iterator]() {
+        yield this.content;
+        for (let child of this.children) {
+            yield* child;
+        }
+    }
+}
+const children = [
+    new Comment('good comment', []),
+    new Comment('bad comment', []),
+    new Comment('meh comment', []),
+];
+const tree = new Comment('Great post', children);
+const values = [];
+for (let value of tree) {
+    values.push(value);
+}
+console.log(values);
+
+//PROMISES AND FETCH
+//creating promises
+promise = new Promise((resolve, reject) => {
+    resolve();
+    // reject();
+});
+
+//then and catch
+promise
+    .then(() => console.log('finally finished'))
+    .then(() => console.log('i was also ran!'))
+    .catch(() => console.log('uh oh!'));
+
+//async code with promises
+promiseAsync = new Promise((resolve, reject) => {
+    setTimeout(() => {
+        // resolve();
+        reject();
+    }, 3000);
+});
+promiseAsync
+    .then(() => console.log('finally finished async'))
+    .then(() => console.log('i was also ran! async'))
+    .catch(() => console.log('uh oh! async'));
+
+//ajax requests with fetch
+url = "https://jsonplaceholder.typicode.com/posts/";
+fetch(url)
+    .then(response => response.json())
+    .then(data => console.log(data));
+
+//shortcomings of fetch
+url2 = "https://jsonplaceholder.typicode123.com/posts123/";
+fetch(url2)
+    .then(response => console.log(response))
+    .catch(error => console.log('BAD', error)); >>>
+>>> > f84f37ec53ae6659ea0742e6113b436f82dbda96
