@@ -941,3 +941,50 @@ function join(array1, array2) {
 function unshift(array, ...array2) {
     return [...array2, ...array];
 }
+
+//DESTRUCTURING
+var expense = {
+    type: 'Busines',
+    amount: '$45 USD'
+}
+
+// var type = expense.type;
+// var amount = expense.amount;
+//o nome das constantes deve ser igual aos nomes dos atributos do objeto
+const {
+    type,
+    amount
+} = expense;
+console.log(type);
+console.log(amount);
+
+var savedFile = {
+    extension: 'jpg',
+    name: 'report',
+    size: 14040
+}
+
+//destructuring arguments objects
+function fileSummary({
+    name,
+    extension,
+    size
+}) {
+    return `The file ${name}.${extension} is of size ${size}`;
+}
+console.log(fileSummary(savedFile));
+
+//destructuring arrays
+const companies = [
+    'google',
+    'facebook',
+    'uber'
+];
+// const [name, name2, name3] = companies;
+const {
+    length
+} = companies;
+const [name, name2, ...rest] = companies;
+console.log(rest);
+
+//destructuring array and objects at the same time
