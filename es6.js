@@ -942,8 +942,6 @@ function unshift(array, ...array2) {
     return [...array2, ...array];
 }
 
-<<
-<< << < HEAD
 //DESTRUCTURING
 var expense = {
     type: 'Busines',
@@ -1340,5 +1338,4 @@ fetch(url)
 url2 = "https://jsonplaceholder.typicode123.com/posts123/";
 fetch(url2)
     .then(response => console.log(response))
-    .catch(error => console.log('BAD', error)); >>>
->>> > f84f37ec53ae6659ea0742e6113b436f82dbda96
+    .catch(error => console.log('BAD', error));
